@@ -304,7 +304,7 @@
 				endMonth = this.endDate !== Infinity ? this.endDate.getUTCMonth() : Infinity,
 				currentDate = this.date.valueOf(),
 				today = new Date();
-			this.picker.find('.datepicker-days thead th:eq(1)')
+			this.picker.find('.datepicker-days thead th:eq(1) > .dp-btn')
 						.text(dates[this.language].months[month]+' '+year);
 			this.picker.find('tfoot th.today')
 						.text(dates[this.language].today)
@@ -353,7 +353,7 @@
 			var currentYear = this.date.getUTCFullYear();
 
 			var months = this.picker.find('.datepicker-months')
-						.find('th:eq(1)')
+						.find('th:eq(1) > .dp-btn')
 							.text(year)
 							.end()
 						.find('span').removeClass('active');
@@ -373,7 +373,7 @@
 			html = '';
 			year = parseInt(year/10, 10) * 10;
 			var yearCont = this.picker.find('.datepicker-years')
-								.find('th:eq(1)')
+								.find('th:eq(1) > .dp-btn')
 									.text(year + '-' + (year + 9))
 									.end()
 								.find('td');
