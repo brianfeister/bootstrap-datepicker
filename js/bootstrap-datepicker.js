@@ -37,6 +37,21 @@
 		this.language = options.language||this.element.data('date-language')||"en";
 		this.language = this.language in dates ? this.language : "en";
 		this.format = DPGlobal.parseFormat(options.format||this.element.data('date-format')||'mm/dd/yyyy');
+		this.isInline = false;
+
+		// pass an override to anything in DPGlobal with a simple space-separated list of values to override
+		// with the `templateOverrides` option - .datepicker({ 'templateOverrides' : 'headTemplate' });
+ 		if ( typeof options.templateOverrides !== "undefined" && options.templateOverrides !== null ) {
+	 		var templateOverrides = options.templateOverrides.split(' ');
+			if ( templateOverrides.length > 0 ) {
+				for ( var i=0; i<templateOverrides.length; i++ ) {
+					var thisOverride = templateOverrides[i];
+					var thisOrigTemplate = DPGlobal[thisOverride];
+					var newTemplate = DPGlobal.template.replace(new RegExp(thisOrigTemplate,'g'), options[thisOverride]);
+					DPGlobal.template = newTemplate;
+				}
+			}
+		}
 		this.picker = $(DPGlobal.template)
 							.appendTo('body')
 							.on({
@@ -78,12 +93,12 @@
 			}
 		});
 
-		this.picker = $(DPGlobal.template)
-							.appendTo(this.isInline ? this.element : 'body')
-							.on({
-							click: $.proxy(this.click, this),
-							mousedown: $.proxy(this.mousedown, this)
-							});
+        this.picker = $(DPGlobal.template)
+                            .appendTo(this.isInline ? this.element : 'body')
+                            .on({
+                                click: $.proxy(this.click, this),
+                                mousedown: $.proxy(this.mousedown, this)
+                            });
 
 		if(this.isInline) {
 			this.picker.addClass('datepicker-inline');
@@ -836,7 +851,6 @@
 								'<th class="next"><i class="icon-arrow-right"/></th>'+
 							'</tr>'+
 						'</thead>',
-		contTemplate: '<tbody><tr><td colspan="7" class="grid-picker"></td></tr></tbody>',
 		contTemplate: '<tbody><tr><td colspan="7"></td></tr></tbody>',
 		footTemplate: '<tfoot><tr><th colspan="7" class="today"></th></tr></tfoot>'
 	};
